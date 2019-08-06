@@ -226,7 +226,7 @@ iamdhrumilshah.com
 </script>
 
 <body onload="document.class.submit()">
-      <form target="post_Data" action="https://banweb.banner.vt.edu/ssb/prod/HZSKVTSC.P_ProcRequest" id="VTForm" name="class" method="post">
+      <form target="post_Data" action="https://banweb.banner.vt.edu/ssb/prod/HZSKVTSC.P_ProcRequest" id="VTForm2" name="class" method="post">
         <input type="hidden" name="CAMPUS" value="<?php echo $campus; ?>">
         <input type="hidden" name="TERMYEAR" value="<?php echo $year . $term; ?>">
         <input type="hidden" name="CORE_CODE" value="AR%">
