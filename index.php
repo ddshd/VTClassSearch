@@ -81,10 +81,10 @@
 {
 	"@context": "http://schema.org",
 	"@type": "WebSite",
-	"url": "https://www.belk.com",
+	"url": "https://iamdhrumilshah.com/vt/",
 	"potentialAction": {
 		"@type": "SearchAction",
-		"target": "https://www.belk.com/search/?q={search_term_string}&lang=default",
+		"target": "https://iamdhrumilshah.com/vt?{search_term_string}",
 		"query-input": "required name=search_term_string"
 	}
 }
