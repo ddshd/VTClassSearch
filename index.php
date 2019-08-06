@@ -77,6 +77,18 @@
   <script src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
   <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700" rel="stylesheet">
   <?php include 'googleAnalytics.php' ?>
+  <script type="application/ld+json">
+{
+	"@context": "http://schema.org",
+	"@type": "WebSite",
+	"url": "https://www.belk.com",
+	"potentialAction": {
+		"@type": "SearchAction",
+		"target": "https://www.belk.com/search/?q={search_term_string}&lang=default",
+		"query-input": "required name=search_term_string"
+	}
+}
+</script>
 </head>
 
 <!--
