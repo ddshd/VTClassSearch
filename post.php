@@ -1,7 +1,7 @@
 <?php
 
   if ($_POST['queryStatus'] == 'false') {
-    $defaultValuesAlert = '<p style="max-width: 800px;width:80vw;margin-bottom:0px;margin-top:10px;color:white;display:<?php echo $SpringTermAlert; ?>">Note: You did not include any campus or term information in the direct URL. Default values were used.</p>';
+    $defaultValuesAlert = '<p style="max-width: 800px;width:80vw;margin-bottom:0px;margin-top:10px;color:white;">Note: You did not include any campus or term information in the direct URL. Default values were used.</p>';
   }
 
   $data = $_POST['class'];
