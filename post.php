@@ -15,8 +15,6 @@
     $shareCampus = $_POST['term'];
   }
 
-  $shareURL = $data ."&". $shareCampus ."&". $_POST['campus'];
-
   if ($_POST['term'] == "Fall") {
     $term = "09";
   } else if ($_POST['term'] == "Summer 1") {
@@ -93,6 +91,8 @@
   $homeurl = explode('/', $full_link);
   array_pop($homeurl);
   $homeurl = implode('/', $homeurl);
+
+  $shareURL = $CurrentClass ."&". $shareCampus ."&". $_POST['campus'];
 
 ?>
 <html>
