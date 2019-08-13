@@ -215,7 +215,13 @@ iamdhrumilshah.com
   }
 
   function ReloadIframe() {
-    document.class.submit()
+  document.class.submit()
+  }
+
+  function Print() {
+    document.print.target = "print";
+    window.open("","print","width=1000,height=800,toolbar=0");
+    document.print.submit();
   }
 
   function copyLink() {
@@ -236,15 +242,33 @@ iamdhrumilshah.com
         <input type="hidden" name="crn" value="<?php echo $crn ?>">
         <input type="hidden" name="open_only">
         <input type="hidden" name="disp_comments_in" value="Y">
-        <input type="hidden" name="BTN_PRESSED" value="FIND class sections">
         <input type="hidden" name="inst_name">
       </form>
+
+      <!-- FOR PRINT ONLY -->
+
+      <form action="https://banweb.banner.vt.edu/ssb/prod/HZSKVTSC.P_ProcRequest" id="VTForm2" name="print" method="post">
+        <input type="hidden" name="CAMPUS" value="<?php echo $campus; ?>">
+        <input type="hidden" name="TERMYEAR" value="<?php echo $year . $term; ?>">
+        <input type="hidden" name="CORE_CODE" value="AR%">
+        <input type="hidden" name="subj_code" value="<?php echo $classDept ?>">
+        <input type="hidden" name="SCHDTYPE" value="%">
+        <input type="hidden" name="CRSE_NUMBER" value="<?php echo $classNo ?>">
+        <input type="hidden" name="crn" value="<?php echo $crn ?>">
+        <input type="hidden" name="open_only">
+        <input type="hidden" name="disp_comments_in" value="Y">
+        <input type="hidden" name="PRINT_FRIEND" value="Y">
+        <input type="hidden" name="inst_name">
+      </form>
+
+      <!-- FOR PRINT ONLY -->
 
       <div id="buttons">
         <center>
           <button onclick="Back()"><i class="fas fa-chevron-left"></i> Back to Search</button>
           <button onclick="HokieSPA()"><i class="fas fa-external-link-alt"></i> Login to HokieSPA</button>
           <button onclick="ReloadIframe()"><i class="fas fa-redo-alt"></i> Reload Frame</button>
+          <button onclick="Print()"><i class="fas fa-print"></i> Print</button>
           <button class="sharebtn" id="sharebtn"><i class="fas fa-share"></i> Share Link</button>
 
           <?php echo $Alert; ?>
