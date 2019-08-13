@@ -231,6 +231,8 @@ iamdhrumilshah.com
     copyText.select();
     document.execCommand("copy");
   }
+
+  window.history.pushState("object or string", "Title", "//<?php echo $homeurl. "?" . str_replace(" ","%20",$shareURL) ?>");
 </script>
 
 <body onload="document.class.submit()">
@@ -297,8 +299,6 @@ iamdhrumilshah.com
       var input = document.getElementById('link');
       input.focus();
       input.select();
-
-      window.history.pushState("object or string", "Title", "//<?php echo $homeurl. "?" . str_replace(" ","%20",$shareURL) ?>");
 
       if( /Android|webOS|iPhone|iPad|iPod|Opera Mini/i.test(navigator.userAgent) ) {
         document.getElementById("sharebtn").style.display = "none";
