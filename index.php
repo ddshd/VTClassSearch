@@ -1,6 +1,6 @@
 <?php
 
-  $query = str_replace("%20"," ",$_SERVER['QUERY_STRING']);
+  $query = rawurldecode($_SERVER['QUERY_STRING']);
   $query = explode('&', $query);
 
   if (sizeof($query) < 3 && sizeof($query) > 1){
