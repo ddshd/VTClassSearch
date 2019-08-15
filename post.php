@@ -94,7 +94,7 @@
   array_pop($homeurl);
   $homeurl = implode('/', $homeurl);
 
-  $shareURL = $CurrentClass ."&". $shareCampus ."&". $_POST['campus'];
+  $shareURL = $homeurl ."?". $CurrentClass ."&". $shareCampus ."&". $_POST['campus'];
 
 ?>
 <html>
@@ -232,7 +232,7 @@ iamdhrumilshah.com
     document.execCommand("copy");
   }
 
-  window.history.pushState("object or string", "Title", "//<?php echo $homeurl. "?" . str_replace(" ","%20",$shareURL) ?>");
+  window.history.pushState("object or string", "Title", "//<?php echo str_replace(" ","%20",$shareURL) ?>");
 </script>
 
 <body onload="document.class.submit()">
@@ -279,8 +279,8 @@ iamdhrumilshah.com
           <?php echo $defaultValuesAlert; ?>
 
           <div class="shareBox" id="shareBox">
-            <input style="outline: none;" id="link" value="http://<?php echo $homeurl. "?" . str_replace(" ","%20",$shareURL) ?>" readonly/>
-            <a href="http://<?php echo $homeurl. "?" . str_replace(" ","%20",$shareURL) ?>" onclick="return false;">
+            <input style="outline: none;" id="link" value="http://<?php echo str_replace(" ","%20",$shareURL) ?>" readonly/>
+            <a href="http://<?php echo str_replace(" ","%20",$shareURL) ?>" onclick="return false;">
               <button onclick="copyLink()" class="btn"><i class="fas fa-clipboard"></i> Copy Link</button>
             </a>
           </div>
