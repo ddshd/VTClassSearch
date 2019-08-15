@@ -56,11 +56,13 @@
     $classNo = null;
     $classDept = null;
     $crn = $data;
-    $CurrentClass = "CRN: " . $crn;
+    $CurrentClassTitle = "CRN: " . $crn;
+    $CurrentClass = $crn;
   } else {
     $classNo = preg_replace('/[^0-9]/', '', $_POST['class']);
     $classDept = strtoupper(preg_replace('/[^a-zA-Z]/', '', $_POST['class']));
     $crn = null;
+    $CurrentClassTitle = ucfirst($classDept) . ucfirst($classNo);
     $CurrentClass = ucfirst($classDept) . ucfirst($classNo);
   }
 
@@ -97,7 +99,7 @@
 ?>
 <html>
 <head>
-  <title><?php echo $CurrentClass ?> - VT Easy Class Search</title>
+  <title><?php echo $CurrentClassTitle ?> - VT Easy Class Search</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.8.2/css/all.css">
@@ -229,6 +231,8 @@ iamdhrumilshah.com
     copyText.select();
     document.execCommand("copy");
   }
+
+  window.history.pushState("object or string", "Title", "//<?php echo $homeurl. "?" . str_replace(" ","%20",$shareURL) ?>");
 </script>
 
 <body onload="document.class.submit()">
@@ -295,8 +299,6 @@ iamdhrumilshah.com
       var input = document.getElementById('link');
       input.focus();
       input.select();
-
-      window.history.pushState("object or string", "Title", "//<?php echo $homeurl. "?" . str_replace(" ","%20",$shareURL) ?>");
 
       if( /Android|webOS|iPhone|iPad|iPod|Opera Mini/i.test(navigator.userAgent) ) {
         document.getElementById("sharebtn").style.display = "none";
