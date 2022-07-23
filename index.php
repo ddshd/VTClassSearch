@@ -3,15 +3,17 @@
   $query = rawurldecode($_SERVER['QUERY_STRING']);
   $query = explode('&', $query);
 
+  $termCheckmarkFall = null;
+  $termCheckmarkSpring = null;
+  $termCheckmarkSM1 = null;
+  $termCheckmarkSM2 = null;
+  $termCheckmarkWinter = null;
+  $campusCheckmark = array_fill(0, 10, "");
+  $classDValue = "";
+
   if (sizeof($query) < 3 && sizeof($query) > 1){
     header("Location: /vt/", true, 301);
     exit();
-  }
-
-  if ($query[1] == '' Or $query[2] == '') {
-    $queryStatus = "false";
-  } else {
-    $queryStatus = "true";
   }
 
   if ($_SERVER['QUERY_STRING'] !== "") {
@@ -22,48 +24,50 @@
     $queryStatus = "true";
   }
 
-  $termCheckmarkFall = null;
-  $termCheckmarkSpring = null;
-  $termCheckmarkSM1 = null;
-  $termCheckmarkSM2 = null;
-  $termCheckmarkWinter = null;
+  if ($query[0] != "") {
+    if ($query[1] == '' Or $query[2] == '') {
+      $queryStatus = "false";
+    } else {
+      $queryStatus = "true";
+    }
 
-  if ($query[1] == "Fall") {
-    $termCheckmarkFall = "selected";
-  } elseif ($query[1] == "Spring") {
-    $termCheckmarkSpring = "selected";
-  } elseif ($query[1] == "SM1") {
-    $termCheckmarkSM1 = "selected";
-  } elseif ($query[1] == "SM2") {
-    $termCheckmarkSM2 = "selected";
-  } elseif ($query[1] == "Winter") {
-    $termCheckmarkWinter = "selected";
-  } elseif (date('m') > 02 && date('m') < 10) {
-    $termCheckmarkFall = "selected";
-  } else {
-    $termCheckmarkSpring = "selected";
-  }
+    if ($query[1] == "Fall") {
+      $termCheckmarkFall = "selected";
+    } elseif ($query[1] == "Spring") {
+      $termCheckmarkSpring = "selected";
+    } elseif ($query[1] == "SM1") {
+      $termCheckmarkSM1 = "selected";
+    } elseif ($query[1] == "SM2") {
+      $termCheckmarkSM2 = "selected";
+    } elseif ($query[1] == "Winter") {
+      $termCheckmarkWinter = "selected";
+    } elseif (date('m') > 02 && date('m') < 10) {
+      $termCheckmarkFall = "selected";
+    } else {
+      $termCheckmarkSpring = "selected";
+    }
 
-  if ($query[2] == "Blacksburg") {
-    $campusCheckmark[0] = "selected";
-  } elseif ($query[2] == "Virtual") {
-      $campusCheckmark[1] = "selected";
-  } elseif ($query[2] == "VTCSOM") {
-      $campusCheckmark[2] = "selected";
-  } elseif ($query[2] == "Western") {
-      $campusCheckmark[3] = "selected";
-  } elseif ($query[2] == "Valley") {
-      $campusCheckmark[4] = "selected";
-  } elseif ($query[2] == "National Capital Region") {
-      $campusCheckmark[5] = "selected";
-  } elseif ($query[2] == "Central") {
-      $campusCheckmark[6] = "selected";
-  } elseif ($query[2] == "Hampton Roads Center") {
-      $campusCheckmark[7] = "selected";
-  } elseif ($query[2] == "Capital") {
-      $campusCheckmark[8] = "selected";
-  } elseif ($query[2] == "Other") {
-      $campusCheckmark[9] = "selected";
+    if ($query[2] == "Blacksburg") {
+      $campusCheckmark[0] = "selected";
+    } elseif ($query[2] == "Virtual") {
+        $campusCheckmark[1] = "selected";
+    } elseif ($query[2] == "VTCSOM") {
+        $campusCheckmark[2] = "selected";
+    } elseif ($query[2] == "Western") {
+        $campusCheckmark[3] = "selected";
+    } elseif ($query[2] == "Valley") {
+        $campusCheckmark[4] = "selected";
+    } elseif ($query[2] == "National Capital Region") {
+        $campusCheckmark[5] = "selected";
+    } elseif ($query[2] == "Central") {
+        $campusCheckmark[6] = "selected";
+    } elseif ($query[2] == "Hampton Roads Center") {
+        $campusCheckmark[7] = "selected";
+    } elseif ($query[2] == "Capital") {
+        $campusCheckmark[8] = "selected";
+    } elseif ($query[2] == "Other") {
+        $campusCheckmark[9] = "selected";
+    }
   }
 
 ?>
