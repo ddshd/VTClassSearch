@@ -107,10 +107,8 @@
   <script src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js"></script>
 
-  <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
-  <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
-  <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
-
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
 </head>
 
 <!--
@@ -149,14 +147,10 @@ iamdhrumilshah.com
   /* */
 
   #data {
-    top: 125px;
+    top: 15px;
     position: relative;
     padding-left: 50px;
     padding-right: 50px;
-  }
-
-  #post_Data table {
-    table-layout:fixed;
   }
 
   #post_Data a {
@@ -170,12 +164,17 @@ iamdhrumilshah.com
     background-color: transparent !important;
   }
 
-  #post_Data td {
+  #post_Data tr {
+    text-align: center;
+  }
+
+  #post_Data td[header="false"] {
     white-space: -o-pre-wrap; 
     word-wrap: break-word;
     white-space: pre-wrap; 
     white-space: -moz-pre-wrap; 
     white-space: -pre-wrap; 
+    text-align: left;
   }
 
   body, html {
@@ -206,10 +205,11 @@ iamdhrumilshah.com
   }
 
   #buttons {
-    width: 100vw;
+    width: 100%;
     padding: 1%;
+    top: 0;
     z-index: 1;
-    position: absolute;
+    position: sticky;
     background-color: #ff6600;
     box-shadow: 4px 4px 15px 1px #00000024;
   }
@@ -326,18 +326,28 @@ iamdhrumilshah.com
       dom.innerHTML = dom.innerHTML.replace(`javascript:${funcs}(`, "javascript:openWindow(");
     });
 
-    dom.setAttribute("class", "table table-hover table-scroll");
+    dom.setAttribute("class", "table table-hover table-striped align-middle");
     document.getElementById("post_Data").innerHTML = "";
     document.getElementById("post_Data").appendChild(dom);
 
     // Make the comments columns span the whole table width
-    const columns = [...document.getElementsByClassName("deleft")];
-    for (var i = 0; i < columns.length; i++) {
+    const columns = [...document.getElementsByTagName("td")];
+    // Skip the header
+    for (var i = 13; i < columns.length; i++) {
       const col = columns[i];
       if (col.hasAttribute('colspan') && col.getAttribute('colspan') === "9") {
-        col.setAttribute('colspan', "12");
+        col.setAttribute('colspan', "11");
+        col.setAttribute('header', "false");
       } 
     }
+
+    // Move the header (first row in tbody) into a thead
+    const tbody = document.getElementsByTagName("tbody")[0];
+    const thead = document.createElement("thead");
+    thead.setAttribute("class", "table-light");
+    thead.innerHTML = tbody.childNodes[0].innerHTML;
+    tbody.removeChild(tbody.childNodes[0]);
+    document.getElementById("post_Data").childNodes[0].appendChild(thead);
   });
   }
 
@@ -404,7 +414,7 @@ iamdhrumilshah.com
 </script>
   <div id="data">
   <h6>Sign into HokieSPA and click on the CRN to see the amount of space available in the class. I do not have access to anything you type on the HokieSPA login window.</h6>
-  <div id="post_Data"></div>
+  <div id="post_Data" class="table-responsive"></div>
   </div>
 </body>
 </html>

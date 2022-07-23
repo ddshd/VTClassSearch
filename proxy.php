@@ -1,5 +1,7 @@
 <?php
 	/*
+		This file is licensed under the following terms:
+		
 	    The MIT License (MIT)
 
 	    Copyright (c) 2014 Oliver Moran
