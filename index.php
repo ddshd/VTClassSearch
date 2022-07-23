@@ -260,11 +260,6 @@ iamdhrumilshah.com
     });
 </script>
 
-
-<!--- THIS IS POPUP FOR WHEN VT DISABLED THE TIMETABLE PAGE -->
-<?php include 'popup.php'; ?>
-<!-- END POPUP -->
-
 <body onload="document.vt.submit()">
 <center>
 <form autocomplete="off" action="post.php" name="vt" id="VTForm" method="post">

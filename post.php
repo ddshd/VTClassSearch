@@ -106,6 +106,11 @@
   <?php include 'googleAnalytics.php' ?>
   <script src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js"></script>
+
+  <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
+
 </head>
 
 <!--
@@ -124,7 +129,7 @@ iamdhrumilshah.com
 -->
 
 <style>
-  body{
+  body {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -143,11 +148,34 @@ iamdhrumilshah.com
 
   /* */
 
-  iframe {
-    width: 99vw;
-    height: calc(99% + 400px);
-    top: -400px;
-    position: absolute;
+  #data {
+    top: 125px;
+    position: relative;
+    padding-left: 50px;
+    padding-right: 50px;
+  }
+
+  #post_Data table {
+    table-layout:fixed;
+  }
+
+  #post_Data a {
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  #post_Data td, #post_Data p, #post_Data b, #post_Data font {
+    font-size: 1em !important;
+    margin: 0px !important;
+    background-color: transparent !important;
+  }
+
+  #post_Data td {
+    white-space: -o-pre-wrap; 
+    word-wrap: break-word;
+    white-space: pre-wrap; 
+    white-space: -moz-pre-wrap; 
+    white-space: -pre-wrap; 
   }
 
   body, html {
@@ -156,17 +184,13 @@ iamdhrumilshah.com
     font-family: 'Roboto', 'Arial';
   }
 
-  body {
-    overflow: hidden;
-  }
-
   button {
     z-index: 1;
     cursor: pointer;
     background-color: maroon;
     color: white;
     border: 3px maroon solid;
-    padding: 0.5% 0.7%;
+    padding: 5px 8px;
     border-radius: 100px;
     -webkit-appearance: none;
     transition: 2s;
@@ -213,17 +237,8 @@ iamdhrumilshah.com
   }
 
   function HokieSPA() {
-    window.open("https://apps.es.vt.edu/ssomgr_prod/c/SSB" , "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,width=400,height=400");
-  }
-
-  function ReloadIframe() {
-  document.class.submit()
-  }
-
-  function Print() {
-    document.print.target = "print";
-    window.open("","print","width=1000,height=800,toolbar=0");
-    document.print.submit();
+    window.open("https://apps.es.vt.edu/ssb/twbkwbis.p_idm_login",
+      "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,width=400,height=400");
   }
 
   function copyLink() {
@@ -232,51 +247,130 @@ iamdhrumilshah.com
     document.execCommand("copy");
   }
 
-  window.history.pushState("object or string", "Title", "//<?php echo str_replace(" ","%20",$shareURL) ?>");
+
+  BASE_TIMETABLE_URL = "https://apps.es.vt.edu/ssb";
+  function openWindow(link) {
+    if (link.includes("http") || link[0] === '.' || link[0] === "/") {
+      window.open(link);
+    }
+    window.open(`${BASE_TIMETABLE_URL}/${link}`, "Timetable",
+      "menubar=yes,toolbar=no,scrollbars,resizable,width=600,height=650,left=25,top=25");
+  }
+
+
+  function loadDocument(isThisPrint = false) {
+    var form = {
+      "CAMPUS": "<?php echo $campus; ?>",
+      "TERMYEAR": "<?php echo $year . $term; ?>",
+      "CORE_CODE": "AR%",
+      "subj_code": "<?php echo $classDept ?>",
+      "SCHDTYPE": "%",
+      "CRSE_NUMBER": "<?php echo $classNo ?>",
+      "crn": "<?php echo $crn ?>",
+      "open_only": "",
+      "sess_code": "%",
+      "BTN_PRESSED": "FIND class sections",
+      "inst_name": "",
+      "disp_comments_in": "Y",
+      "PRINT_FRIEND": isThisPrint ? "Y" : "N"
+    }
+
+    <?php // To run on localhost add https://iamdhrumilshah.com/ to the front. SSL doesn't work on localhost ?>
+
+    fetch(`/vt/proxy.php?url=${BASE_TIMETABLE_URL}/HZSKVTSC.P_ProcRequest`, {
+  "headers": {
+    "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+    "accept-language": "en-US,en;q=0.9",
+    "cache-control": "no-cache",
+    "content-type": "application/x-www-form-urlencoded",
+    "pragma": "no-cache",
+    "sec-ch-ua": "\".Not/A)Brand\";v=\"99\", \"Google Chrome\";v=\"103\", \"Chromium\";v=\"103\"",
+    "sec-ch-ua-mobile": "?0",
+    "sec-ch-ua-platform": "\"macOS\"",
+    "sec-fetch-dest": "document",
+    "sec-fetch-mode": "navigate",
+    "sec-fetch-site": "cross-site",
+    "sec-fetch-user": "?1",
+    "upgrade-insecure-requests": "1"
+  },
+  "referrerPolicy": "strict-origin-when-cross-origin",
+  "body": new URLSearchParams(form).toString(),
+  "method": "POST",
+  "mode": "cors",
+  "credentials": "omit"
+  }).then(r => r.text()).then(res => {
+    if (isThisPrint) {
+      var w = window.open('about:blank#UVASucks', "print","width=1000,height=800,toolbar=0");
+      w.document.open();
+      w.document.write(res);
+      w.document.close();
+      return;
+    }
+
+
+    var parser = new DOMParser();
+    var htmlDoc = parser.parseFromString(res, 'text/html');
+
+    var dom = htmlDoc.getElementsByClassName("dataentrytable")[0];
+
+    if (!dom || res.includes("NO SECTIONS FOUND")) {
+      document.getElementById("post_Data").innerHTML = "No sections found for this query.";
+      return;
+    }
+
+    // Remove all empty DOMs
+    dom.innerHTML = dom.innerHTML.replace(/<[^>]*>\s*<\/[^>]*>/gs, "");
+
+    // Replace all javascript:*() with javascript:openWindow()
+    getAllInlineJavascriptFunctions(dom.innerHTML).forEach((funcs) => {
+      dom.innerHTML = dom.innerHTML.replace(`javascript:${funcs}(`, "javascript:openWindow(");
+    });
+
+    dom.setAttribute("class", "table table-hover table-scroll");
+    document.getElementById("post_Data").innerHTML = "";
+    document.getElementById("post_Data").appendChild(dom);
+
+    // Make the comments columns span the whole table width
+    const columns = [...document.getElementsByClassName("deleft")];
+    for (var i = 0; i < columns.length; i++) {
+      const col = columns[i];
+      if (col.hasAttribute('colspan') && col.getAttribute('colspan') === "9") {
+        col.setAttribute('colspan', "12");
+      } 
+    }
+  });
+  }
+
+  function getAllInlineJavascriptFunctions(str) {
+    functions = [];
+    const regex = /\"javascript:([\S]*)\(/gsi;
+    let m;
+    while ((m = regex.exec(str)) !== null) {
+        // This is necessary to avoid infinite loops with zero-width matches
+        if (m.index === regex.lastIndex) {
+            regex.lastIndex++;
+        }
+        
+        // The result can be accessed through the `m`-variable.
+        m.forEach((match, groupIndex) => {
+            if (groupIndex) {
+              functions.push(match);
+            }
+            // console.log(`Found match, group ${groupIndex}: ${match}`);
+        });
+    }
+    return functions;
+  }
+  window.history.pushState("", "", "//<?php echo str_replace(" ","%20",$shareURL) ?>");
 </script>
 
-<!--- THIS IS POPUP FOR WHEN VT DISABLED THE TIMETABLE PAGE -->
-<?php include 'popup.php'; ?>
-<!-- END POPUP -->
-
-<body onload="document.class.submit()">
-      <form target="post_Data" action="https://apps.es.vt.edu/ssb/HZSKVTSC.P_ProcRequest" id="VTForm2" name="class" method="post">
-        <input type="hidden" name="CAMPUS" value="<?php echo $campus; ?>">
-        <input type="hidden" name="TERMYEAR" value="<?php echo $year . $term; ?>">
-        <input type="hidden" name="CORE_CODE" value="AR%">
-        <input type="hidden" name="subj_code" value="<?php echo $classDept ?>">
-        <input type="hidden" name="SCHDTYPE" value="%">
-        <input type="hidden" name="CRSE_NUMBER" value="<?php echo $classNo ?>">
-        <input type="hidden" name="crn" value="<?php echo $crn ?>">
-        <input type="hidden" name="open_only">
-        <input type="hidden" name="disp_comments_in" value="Y">
-        <input type="hidden" name="inst_name">
-      </form>
-
-      <!-- FOR PRINT ONLY -->
-
-      <form action="https://banweb.banner.vt.edu/ssb/prod/HZSKVTSC.P_ProcRequest" id="VTForm2" name="print" method="post">
-        <input type="hidden" name="CAMPUS" value="<?php echo $campus; ?>">
-        <input type="hidden" name="TERMYEAR" value="<?php echo $year . $term; ?>">
-        <input type="hidden" name="CORE_CODE" value="AR%">
-        <input type="hidden" name="subj_code" value="<?php echo $classDept ?>">
-        <input type="hidden" name="SCHDTYPE" value="%">
-        <input type="hidden" name="CRSE_NUMBER" value="<?php echo $classNo ?>">
-        <input type="hidden" name="crn" value="<?php echo $crn ?>">
-        <input type="hidden" name="open_only">
-        <input type="hidden" name="disp_comments_in" value="Y">
-        <input type="hidden" name="PRINT_FRIEND" value="Y">
-        <input type="hidden" name="inst_name">
-      </form>
-
-      <!-- FOR PRINT ONLY -->
-
+<body onload="loadDocument()">
       <div id="buttons">
         <center>
           <button onclick="Back()"><i class="fas fa-chevron-left"></i> Back to Search</button>
           <button onclick="HokieSPA()"><i class="fas fa-external-link-alt"></i> Login to HokieSPA</button>
-          <button onclick="ReloadIframe()"><i class="fas fa-redo-alt"></i> Reload Frame</button>
-          <button onclick="Print()"><i class="fas fa-print"></i> Print</button>
+          <button onclick="loadDocument()"><i class="fas fa-redo-alt"></i> Reload Frame</button>
+          <button onclick="loadDocument(true)"><i class="fas fa-print"></i> Print</button>
           <button class="sharebtn" id="sharebtn"><i class="fas fa-share"></i> Share Link</button>
 
           <?php echo $Alert; ?>
@@ -285,7 +379,7 @@ iamdhrumilshah.com
           <div class="shareBox" id="shareBox">
             <input style="outline: none;" id="link" value="http://<?php echo str_replace(" ","%20",$shareURL) ?>" readonly/>
             <a href="http://<?php echo str_replace(" ","%20",$shareURL) ?>" onclick="return false;">
-              <button onclick="copyLink()" class="btn"><i class="fas fa-clipboard"></i> Copy Link</button>
+              <button onclick="copyLink()"><i class="fas fa-clipboard"></i> Copy Link</button>
             </a>
           </div>
         </center>
@@ -308,8 +402,9 @@ iamdhrumilshah.com
         document.getElementById("sharebtn").style.display = "none";
       }
 </script>
-
-  <iframe style="width:1px;height:1px;z-index:-1;" src="https://apps.es.vt.edu/ssomgr_prod/c/SSB"></iframe>
-  <iframe id="post_Data" name="post_Data"></iframe>
+  <div id="data">
+  <h6>Sign into HokieSPA and click on the CRN to see the amount of space available in the class. I do not have access to anything you type on the HokieSPA login window.</h6>
+  <div id="post_Data"></div>
+  </div>
 </body>
 </html>
