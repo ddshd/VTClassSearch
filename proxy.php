@@ -47,7 +47,7 @@
 	ini_set("user_agent", $_SERVER['HTTP_USER_AGENT']);
 
 	// enable access from all domains
-	enable_cors();
+	// enable_cors();
 
 	switch ($_SERVER["REQUEST_METHOD"]) {
 		case "GET":
